@@ -1,0 +1,145 @@
+#include<iostream>
+#include <math.h>
+#include <cmath>
+#include<windows.h>
+#pragma comment(lib, "Winmm.lib")
+                           //Code by Section Method - MATH 4 - O6U
+using namespace std;
+//Functions
+void test(double fx1, double fx2, double x1, double x2, int choice);
+void c_equation(double x1, double x2, int choice);
+void choicing(int choice, double x1, double x2, double a, double b);
+
+void main()
+{
+	double x1, x2;
+	int opration , choice;
+	system("color B");
+	cout << "================================================" << endl;
+	cout << "                                                " << endl;
+	cout << "Choose Equation : " << endl;
+	cout << "________________________________________________" << endl;
+	cout << "1 - f(x) = X^3 + 4X^2 - 10 " << endl;
+	cout << "2 - f(x) = X - Cos(X) " << endl;
+	cout << "3 - f(x) = X.e^x - 2 = 0 " << endl;
+	PlaySound(L"choose equation.wav", 0, SND_FILENAME);
+	cout << "                                   " << endl;
+	cin >> choice;
+	cout << "------------------------------------------------" << endl;
+	cout << "If you have values  press 1/ random press 2 :" << endl;
+	cin >> opration;
+	if (opration == 1)
+	{
+		cout << "Enter X,1 Value : " << endl;
+		cin >> x1;
+		cout << "Enter X,2 Value : " << endl;
+		cin >> x2;
+	}
+	else if (opration == 2)
+	{
+		x1 = rand() % 10;
+		x2 = rand() % 10;
+	}
+	else { 
+		cout << "Wrong Assumptions !! " << endl;
+		PlaySound(L"Wrong Assumptions.wav", 0, SND_FILENAME);
+		system("cls");
+		main();
+	}
+	c_equation(x1, x2, choice); //Function C_Equation
+}
+
+void c_equation(double x1, double x2, int choice)
+{
+	double fx1, fx2;
+	if (choice == 1)
+	{
+		fx1 = pow(x1, 3) + 4 * (pow(x1, 2)) - 10;
+		fx2 = pow(x2, 3) + 4 * (pow(x2, 2)) - 10;
+	}
+
+	else if (choice == 2)
+	{
+		fx1 = x1 - cos(x1);
+		fx2 = x2 - cos(x2);
+	}
+	else if (choice == 3)
+	{
+		fx1 = x1 * exp(x1) - 2;
+		fx2 = x2 * exp(x2) - 2;
+	}
+	else
+	{
+		system("cls");
+		cout << "No More Equations !!" << endl;
+		main();
+	}
+	test(fx1, fx2, x1, x2, choice); // function test
+}
+
+void test(double fx1, double fx2, double x1, double x2 , int choice)
+{
+	double a, b;
+	if ((fx1 < 0 && fx2 > 0) || (fx1 > 0 && fx2 < 0))
+	{
+		cout << "f(" << x1 << ") = " << fx1 << endl;
+		cout << "f(" << x2 << ") = " << fx2 << endl;
+		cout << "The Test is Successful  " << endl;
+		PlaySound(L"The Test is Successful.wav", 0, SND_FILENAME);
+		//----------------------------------------------------------
+		if (fx1 < 0 && fx2 > 0)
+		{
+			a = x1;
+			b = x2;
+		}
+		else if (fx1 > 0 && fx2 < 0)
+		{
+			a = x2;
+			b = x1;
+		}
+			
+		//----------------------------------------------------------
+		choicing(choice, x1, x2, a, b);
+	}
+	else
+	{
+		system("cls");
+		cout << "f(" << x1 << ") = " << fx1 << endl;
+		cout << "f(" << x2 << ") = " << fx2 << endl;
+		cout << "Test Failed !! Try Another Numbers !" << endl;
+		PlaySound(L"Test Failed !! Try Another Numbers !.wav", 0, SND_FILENAME);
+		x1 = NULL;
+		x2 = NULL;
+		main();
+	}
+}
+
+void choicing(int choice, double x1, double x2, double a, double b)
+{
+	double c, fc;
+	for (int i = 0; i < 12; i++)
+	{
+		c = (a + b) / 2;
+		switch (choice)
+		{
+		case 1 :
+				fc = pow(c, 3) + 4 * (pow(c, 2)) - 10;
+				break;
+		case 2 :
+				fc = c - cos(c);
+				break;
+		case 3 :
+				fc = c * exp(c) - 2;
+				break;
+		default:
+			cout << " " << endl;
+			break;
+		}
+		//system("color 2");
+		cout << "COUNTER = " << i << endl;
+		cout << "F(a) = " << a   << "  " << "   F(b) = " << b   << "  " << "   C = " << c << "   " << "   F(c) = " << fc << endl;
+		if (fc < 0) { a = c; }
+		else if (fc > 0) { b = c; }
+	}
+	system("pause");
+}
